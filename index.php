@@ -21,6 +21,8 @@ class Router
     public function __construct()
     {
         $this->urlParameters = [];
+        $this->controller = null;
+        $this->action = null;
 
         foreach ($_GET as $key => $value)
             $this->urlParameters[] = [$key => $value];
@@ -39,7 +41,7 @@ class Router
             }
             else
             {
-                $this->action = array_shift($this->urlParameters);
+                $this->action = key(array_shift($this->urlParameters));
                 $this->controller->setParameters($this->urlParameters);
             }
         }
