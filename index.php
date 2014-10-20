@@ -30,6 +30,17 @@ class Router
 
     public function route()
     {
+        /*
+         * TODO - rewrite this method
+         *
+         * index.php with no parameters == login page with redirect to Home:index
+         *
+         * other options:
+         *      first parameter - controller
+         *      second parameter - action
+         *      other parameters - parameters
+         */
+
         if (isset($this->urlParameters[0]))
         {
             $name = str_replace(' ', '', ucwords(str_replace('-', ' ', key(array_shift($this->urlParameters))))) . 'Controller';
@@ -38,15 +49,20 @@ class Router
             if (!isset($this->urlParameters[0]))
             {
                 $this->controller = new ErrorController();
+                $this->controller->pageNotFound();
             }
             else
             {
-                $this->action = key(array_shift($this->urlParameters));
+                $this->action = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', key(array_shift($this->urlParameters)))))) . 'Action';
                 $this->controller->setParameters($this->urlParameters);
+                $this->controller->renderAction($this->action);
             }
         }
         else
+        {
             $this->controller = new HomeController();
+            $this->controller->renderAction('indexAction');
+        }
     }
 }
 

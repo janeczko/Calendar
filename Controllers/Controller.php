@@ -16,7 +16,7 @@ class Controller
 
     public function initialize()
     {
-
+        echo 'init';
     }
 
     public function renderView($view)
@@ -34,9 +34,14 @@ class Controller
 
     protected function redirect($url)
     {
-        header('Location: /' . $url);
+        header('Location: ' . $url);
         header('Connection: close');
         exit;
+    }
+
+    public function pageNotFound()
+    {
+        $this->redirect('index.php?error&error');
     }
 
     public function renderAction($action)
